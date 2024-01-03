@@ -19,8 +19,9 @@ A Nuke slate plugin developed using Prism2, a VFX project workflow management so
 > This Gizmo is based on [Prism2](https://prism-pipeline.com/)
 Please ensure that the project settings are correctly configured in Prism before use.
 
-1. Copy the entire folder into the Nuke environment directory. it's usually at `C:\Users(your username).nuke` . 
-2. Then find the `init.py` file at Nuke environment directory and add the following code:
+1. Copy the `PowerSlate_ForPrism2` full folder into the Nuke environment directory. it's usually at `C:\Users\(your username)\.nuke` 
+2. Then find the `init.py` file，If there isn't one, create it. and add the following code:
+
 ```
 nuke.pluginAddPath('./PowerSlate_ForPrism2')
 nuke.pluginAddPath('./PowerSlate_ForPrism2/py')
@@ -31,6 +32,7 @@ nuke.pluginAddPath('./PowerSlate_ForPrism2/py')
 ![240103214715](https://github.com/SimonMing0528/PowerSlate-Nuke_ForPrism2/assets/137688513/4c3159d2-f68e-4e56-a37f-71e3016369c9)
 
 # Usage
+![103231501](https://github.com/SimonMing0528/PowerSlate-Nuke_ForPrism2/assets/137688513/d943e9b9-857b-4b74-a07d-0855bd194712)
 
 This plugin, integrated with Prism2 Pipeline management software, automatically retrieves essential information about the current scene, eliminating the need for manual inputs and operations in most cases。
 However, there are still several options that require manual operation from you:
