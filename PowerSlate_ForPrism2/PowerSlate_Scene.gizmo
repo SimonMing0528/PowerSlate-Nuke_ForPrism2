@@ -1,0 +1,678 @@
+#! E:/TheFoundry/Nuke13.2v3/nuke-13.2.3.dll -nx
+version 13.2 v3
+Gizmo {
+ tile_color 0xff005fff
+ label "<font size=3 color=YELLOW>Shot ::: For_Prism2  "
+ lock_connections true
+ addUserKnob {20 tab l Setting}
+ addUserKnob {26 PowerSlate l "" +STARTLINE T PowerSlate}
+ addUserKnob {26 ""}
+ addUserKnob {26 note l "" +STARTLINE T "This Gizmo is based on Prism2!\nPlease ensure that the project settings are correctly configured in Prism before use."}
+ addUserKnob {26 ""}
+ addUserKnob {4 Status l TaskStatus t "Mark the current scene's job status" M {In-Progress Postvis Review "" ""}}
+ addUserKnob {22 Core l "#Load Core#" t "Load the core files of Prism2. \n!!!Click this button before using!!!" -STARTLINE +INVISIBLE T "import nuke\nimport os\n\ntry:\n    core = pcore\n    nuke.message('PowerSlate_loading success!')\nexcept NameError:\n    print(\"pcore is not defined\")\n    nuke.message('faile')\n\n\n\n###################\ndef getShot(pcore):\n    fileName = core.getCurrentFileName()\n    currentEntity = core.getScenefileData(fileName)\n    try:\n        Shot = currentEntity\['shot']\n        return Shot\n    except KeyError:\n        return 'None'\n\ndef getSquence(pcore):\n    fileName = core.getCurrentFileName()\n    currentEntity = core.getScenefileData(fileName)\n    try:\n        sqc = currentEntity\['sequence']\n        return sqc\n    except KeyError:\n        return 'None'\n\ndef getVersion(pcore):\n    fileName = core.getCurrentFileName()\n    currentEntity = core.getScenefileData(fileName)\n    ver = currentEntity\['version']\n    return ver\n\ndef getUsername(pcore):\n    fileName = core.getCurrentFileName()\n    currentEntity = core.getScenefileData(fileName)\n    artist = currentEntity\['username']\n    return artist\n\ndef getProject():\n    fileName = core.getCurrentFileName()\n    currentEntity = core.getScenefileData(fileName)\n    try:\n        project = currentEntity\['project_name']\n        return project\n    except KeyError:\n        path = currentEntity\['project_path']\n        path_parts = path.split(os.path.sep)\n        project_name = path_parts\[-2] if len(path_parts) >= 2 else None\n        return project_name\nprint(getProject())\n\ndef getUsername(pcore):\n    fileName = core.getCurrentFileName()\n    currentEntity = core.getScenefileData(fileName)\n    artist = currentEntity\['username']\n    return artist\nprint(getUsername(pcore))\n\nimport nuke\nimport os\n\n\n'''get_output_resolution_SQ name'''\ndef getFullSizeName():\n    current_project = nuke.root()\n    full_size_format = current_project.format()\n    name = full_size_format.name()\n    return name\n\ndef getSqSCName():\n    file_path = nuke.root().name()\n    file_name = os.path.basename(file_path)\n    base_name = file_name.split('_C')\[0]\n    return base_name\n\n\n'''Lens Status Word Definition'''\n\n# '''寻找节点名称'''\n# def getPanel():\n#     all_nodes = nuke.allNodes()\n#     for node in all_nodes:\n#         if node.knob('PowerSlate'):\n#             if node\['PowerSlate'].value() == 'PowerSlate':\n#                 return node\n# \n# panel_node = getPanel()\n# if panel_node:\n#    SlateNode = panel_node.name()\n\ndef check_status():\n    custom_node = nuke.toNode('PowerSlate_Scene')\n    if custom_node:\n        pulldown_value = custom_node.knob(\"Status\").value()\n\n        # 检查 pulldown_value 的值并返回相应的字符串\n        if pulldown_value == 'In-Progress':\n            return 'In-Progress'\n        if pulldown_value == 'Postvis':\n            return 'PostVis'\n        if pulldown_value == 'Review':\n            return 'Review'\n    return 'None'\n\n\n\n\n'''set The Color Of Status Display Text'''\ndef statusValueR():\n    status_text = check_status()\n    if status_text == 'In-Progress':\n        vlu = 0\n        return vlu\n    elif status_text == 'Review':\n        vlu = 1\n        return vlu\n    elif status_text == 'PostVis':\n        vlu = 1\n        return vlu\n    else:\n        return None\ndef statusValueG():\n    status_text = check_status()\n    if status_text == 'In-Progress':\n        vlu = 1\n        return vlu\n    elif status_text == 'Review':\n        vlu = 0.2\n        return vlu\n    elif status_text == 'PostVis':\n        vlu = 1\n        return vlu\n    else:\n        return None\ndef statusValueB():\n    status_text = check_status()\n    if status_text == 'In-Progress':\n        vlu = 1\n        return vlu\n    elif status_text == 'Review':\n        vlu = 1\n        return vlu\n    elif status_text == 'PostVis':\n        vlu = 0\n        return vlu\n    else:\n        return None\n\n\n\n'''TimeDisplayFunction'''\ndef TcCodeDisplay():\n    gizmo_node = nuke.toNode(\"PowerSlate_Scene\")\n    switchBoolean = gizmo_node.knob('tcCode').value()\n    tcGizmo = gizmo_node.node(\"tcSwitch\")\n\n    if switchBoolean:\n        return True\n\n    else:\n        return False\n\n\n\nprint(getFullSizeName())\nprint(getSqSCName())\nprint(check_status())\nprint(statusValueR())\nprint(statusValueG())\nprint(statusValueB())\nprint(TcCodeDisplay())"}
+ addUserKnob {6 LetterBox +STARTLINE}
+ addUserKnob {6 tcCode l "Ues TC code" t "Using TimeCode from MetaData. \n\nEnabling this option will have no effect if there is no metadata information available" -STARTLINE}
+ addUserKnob {26 ""}
+ addUserKnob {20 position l "Text position" n 1}
+ addUserKnob {41 upperlevel l "Top Caption" T size.upperlevel}
+ addUserKnob {41 lowerlevel l "Bottom Caption" T size.lowerlevel}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {26 ""}
+ addUserKnob {20 Size l "Text Size" n 1}
+ addUserKnob {41 Top_FontSize l "Top FontSize" T POJ_Name.global_font_scale}
+ addUserKnob {41 Bottom_FontSize l "Bottom FontSize" T size.global_font_scale}
+ addUserKnob {20 endGroup_1 l endGroup n -1}
+ addUserKnob {26 ""}
+ addUserKnob {26 ColorPageInfo l "" +STARTLINE T "Customize the color of the scene information label text here. \n(Not recommended to change it arbitrarily; default colors are recommended.)"}
+ addUserKnob {26 ""}
+ addUserKnob {41 Base_Info_Color T SizeName.color}
+ addUserKnob {41 Shot_Color l #Shot_Color T POJ_Name.color}
+ addUserKnob {41 Script_Color T FileName.color}
+ addUserKnob {20 RD_infomation l info}
+ addUserKnob {26 Contact_me l "" +STARTLINE T "\n\nContact: \nSimon.lee.edu@outlook.com"}
+ addUserKnob {26 ""}
+ addUserKnob {26 Gizmo_info l "" +STARTLINE T "PowerSlate For_Prism2\n =====V1.0.1\n\nby: Simon.Ming\n"}
+ addUserKnob {26 ""}
+ addUserKnob {22 Tutorial l "Go Tutorial" T "import nuke\nimport webbrowser\n\ndef open_website():\n    url = 'https://nervous-governor-a95.notion.site/PowerSlate_ForPrism2-629b7461b27143d6b5f3c3bd692f145d?pvs=4'  # 在这里替换为你想要打开的网址\n    webbrowser.open(url)\n\nopen_website()" +STARTLINE}
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode1
+  label "FG_INFO\n"
+  note_font_size 80
+  xpos 2253
+  ypos 422
+  bdwidth 2642
+  bdheight 590
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  name Constant1
+  xpos 2351
+  ypos 1132
+ }
+ Crop {
+  box {0 {root.height*0.0185} {root.width} {"root.height - root.height*0.028"}}
+  name Crop2
+  xpos 2478
+  ypos 1156
+ }
+ Invert {
+  channels {rgba.alpha none none -rgba.alpha}
+  name Invert1
+  xpos 2604
+  ypos 1150
+ }
+ Input {
+  inputs 0
+  name Input1
+  label "\n"
+  xpos 2467
+  ypos 1077
+ }
+ Crop {
+  box {0 {-root.height*0.0185} {root.width} {"root.height + root.height*0.028"}}
+  reformat true
+  intersect true
+  name Crop1
+  xpos 2752
+  ypos 1077
+  disable {{!LetterBox}}
+ }
+ Merge2 {
+  inputs 2
+  operation atop
+  mix 0.2
+  name Merge1
+  xpos 2752
+  ypos 1156
+  disable {{LetterBox x7 1}}
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message script:
+  old_message {{115 99 114 105 112 116 58}
+    }
+  box {0 0 81 65.5}
+  yjustify bottom
+  transforms {{0 2}
+    }
+  cursor_position 7
+  font {{ Arial : Bold : arialbd.ttf : 0 }}
+  global_font_scale {{size.global_font_scale}}
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{841.5 32.5}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform"}
+  animation_layers {{1 11 960 540 {root.width*0.217} {root.height*size.lowerlevel} 1 1 0 0 0 0}
+    }
+  name script
+  xpos 2752
+  ypos 1264
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message "\[file tail \[value root.name \[file rootname \[value root.name]]]]"
+  old_message {{76 67 84 45 48 48 49 48 95 67 111 109 112 111 115 105 116 105 110 103 95 118 48 48 48 49 46 110 107}
+    }
+  old_expression_markers {{0 28}
+    }
+  box {0 0 289 70.80000305}
+  yjustify bottom
+  transforms {{0 2}
+    }
+  cursor_position 63
+  font {{ Arial : Bold : arialbd.ttf : 0 }}
+  global_font_scale {{size.global_font_scale}}
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{841.5 32.5}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform"}
+  animation_layers {{1 11 960 540 {root.width*0.248} {root.height*size.lowerlevel} 1 1 0 0 0 0}
+    }
+  color {0 1.09414 0.159709 1}
+  name FileName
+  label "<font size=8 color=yellow>&nbsp;<b>script name"
+  xpos 2752
+  ypos 1448
+ }
+ Dot {
+  name Dot2
+  xpos 2904
+  ypos 1471
+ }
+ Dot {
+  name Dot3
+  xpos 2904
+  ypos 1124
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message "RANGE:  \[format \"%04d-%04d\" \[value root.first_frame] \[value root.last_frame]] (\[expr \[value root.last_frame] - \[value root.first_frame] + 1])"
+  old_message {{82 65 78 71 69 58 32 32 48 48 48 48 45 51 55 50 49 32 40 51 55 50 50 41}
+    }
+  old_expression_markers {{8 16 19 22}
+    }
+  box {0 0 246.3999939 50}
+  yjustify bottom
+  transforms {{0 2}
+    }
+  cursor_position 141
+  font {{ Arial : Bold : arialbd.ttf : 0 }}
+  global_font_scale {{size.global_font_scale}}
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{664 32.5}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform"}
+  animation_layers {{1 11 960 540 {root.width*0.664} {root.height*size.lowerlevel} 1 1 0 0 0 0}
+    }
+  name FrameRange4
+  label "<font size=8 color=yellow>&nbsp;<b>RANGE"
+  xpos 3115
+  ypos 1101
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message "TC:   \[metadata input/timecode]"
+  old_message {{84 67 58 32 32 32}
+    }
+  old_expression_markers {{6 5}
+    }
+  box {-507 0 -251 62}
+  yjustify bottom
+  transforms {{0 2}
+    }
+  cursor_position 6
+  font {{ Arial : Bold : arialbd.ttf : 0 }}
+  global_font_scale {{POJ_Name.global_font_scale}}
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{0 1080}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform"}
+  animation_layers {{1 11 960 540 {root.width*0.7192} {root.height*size.upperlevel} 1 1 0 0 0 0}
+    }
+  name TC_input
+  label "<font size=8 color=yellow>&nbsp;<b>TC CODE"
+  xpos 3115
+  ypos 1420
+  disable {{!tcCode x1001 0}}
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  invert_mask true
+  message "\[python getSquence(pcore)]_\[python getShot(pcore)]"
+  old_message {{76 67 84 95 48 48 49 48}
+    }
+  old_expression_markers {{0 2 4 7}
+    }
+  box {0 0 265.5 89}
+  yjustify bottom
+  transforms {{0 2}
+    }
+  cursor_position 50
+  font {{ Arial : Bold : arialbd.ttf : 0 }}
+  global_font_scale 0.26
+  translate {{root.width*0.019} {root.height*size.upperlevel}}
+  scale {1 1}
+  center {960 540}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{90.5 1136.5}
+    }
+  group_animations {{0} imported: 0 selected: 0 items: "root transform"}
+  animation_layers {{1 11 960 540 {root.width*0.019} {root.height*size.upperlevel} 1 1 0 0 0 0}
+    }
+  color {0 1.094135 0.159709 1}
+  name POJ_Name
+  tile_color 0xff00f4ff
+  label "<font size=8 color=yellow>&nbsp;<b>ShowID"
+  xpos 3340
+  ypos 1420
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  invert_mask true
+  message "\[python check_status()]"
+  old_message {{73 110 45 80 114 111 103 114 101 115 115}
+    }
+  old_expression_markers {{0 10}
+    }
+  box {0 0 266 55}
+  yjustify bottom
+  transforms {{0 2}
+    }
+  cursor_position 23
+  font {{ Arial : Black : ariblk.ttf : 0 }}
+  global_font_scale {{POJ_Name.global_font_scale}}
+  translate {{root.width*0.232} {root.height*size.upperlevel}}
+  scale {1 1}
+  center {960 540}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{1715.800049 1135.800049}
+    }
+  group_animations {{0} imported: 0 selected: 0 items: "root transform"}
+  animation_layers {{1 11 960 540 {root.width*0.232} {root.height*size.upperlevel} 1 1 0 0 0 0}
+    }
+  color {{"\[python statusValueR()]"} {"\[python statusValueG()]"} {"\[python statusValueB()]"} 1}
+  color_panelDropped true
+  name Review_Stauts
+  label "<font size=8 color=yellow>&nbsp;<b>Stauts"
+  xpos 3340
+  ypos 1253
+  addUserKnob {20 User}
+  addUserKnob {6 a +STARTLINE}
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  invert_mask true
+  message "\[python getVersion(pcore)]"
+  old_message {{118 48 48 48 49}
+    }
+  old_expression_markers {{0 4}
+    }
+  box {0 0 116 25}
+  yjustify bottom
+  transforms {{0 2}
+    }
+  font {{ Arial : Regular : arial.ttf : 0 }}
+  global_font_scale {{POJ_Name.global_font_scale}}
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{1715.800049 1135.800049}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform"}
+  animation_layers {{1 11 960 540 {root.width*0.935} {root.height*size.upperlevel} 1 1 0 0 0 0}
+    }
+  name version
+  label "<font size=8 color=yellow>&nbsp;<b>Version\n"
+  xpos 3340
+  ypos 1105
+  addUserKnob {20 User}
+  addUserKnob {6 a +STARTLINE}
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message "\[python getUsername(pcore)]"
+  old_message {{83 105 109 111 110 46 77 105 110 103}
+    }
+  old_expression_markers {{0 9}
+    }
+  box {0 0 129.5 82}
+  yjustify bottom
+  transforms {{0 2}
+    }
+  cursor_position 27
+  font {{ Arial : Bold : arialbd.ttf : 0 }}
+  global_font_scale {{size.global_font_scale}}
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{841.5 32.5}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform"}
+  animation_layers {{1 11 960 540 {root.width*0.13489} {root.height*size.lowerlevel} 1 1 0 0 0 0}
+    }
+  color {{SizeName.color} {SizeName.color} {SizeName.color} {SizeName.color}}
+  name artist
+  xpos 3531
+  ypos 1125
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message uesr:
+  old_message {{117 101 115 114 58}
+    }
+  box {0 0.1000013009 76.5 82.5}
+  yjustify bottom
+  transforms {{0 2}
+    }
+  cursor_position 5
+  font {{ Arial : Bold : arialbd.ttf : 0 }}
+  global_font_scale {{size.global_font_scale}}
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{841.5 32.5}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform"}
+  animation_layers {{1 11 960 540 {root.width*0.108} {root.height*size.lowerlevel} 1 1 0 0 0 0}
+    }
+  background_color {0 0 0 0}
+  background_color_panelDropped true
+  name FileName5
+  label "<font size=8 color=yellow>&nbsp;<b>User"
+  xpos 3531
+  ypos 1428
+ }
+ Dot {
+  name Dot1
+  xpos 3720
+  ypos 1451
+ }
+ Dot {
+  name Dot4
+  xpos 3720
+  ypos 1128
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message "FRAME:     \[format \"%04d\" \[frame]]\n"
+  old_message {{70 82 65 77 69 58 32 32 32 32 32 48 49 52 48 10}
+    }
+  old_expression_markers {{11 14}
+    }
+  box {-9 -1.5 154.5 99.5}
+  xjustify right
+  yjustify bottom
+  transforms {{0 2}
+    }
+  cursor_position 9
+  font {{ Arial : Bold : arialbd.ttf : 0 }}
+  global_font_scale {{size.global_font_scale}}
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{841.5 32.5}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform"}
+  animation_layers {{1 11 960 540 {root.width*0.52} {root.height*size.lowerlevel} 1 1 0 0 0 0}
+    }
+  name range
+  label "<font size=8 color=yellow>&nbsp;<b>FRAME"
+  xpos 3842
+  ypos 1105
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  opacity 0.64
+  message "\[format \"%04d\" \[frame]]\n"
+  old_message {{48 49 52 48 10}
+    }
+  old_expression_markers {{0 3}
+    }
+  box {-9 -1.5 154.5 99.5}
+  xjustify right
+  yjustify bottom
+  transforms {{0 2}
+    }
+  cursor_position 24
+  font {{ Arial : Regular : arial.ttf : 0 }}
+  global_font_scale {{POJ_Name.global_font_scale}}
+  translate {{root.width*0.7458} {root.height*size.upperlevel}}
+  scale {1 1}
+  center {960 540}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{841.5 32.5}
+    }
+  group_animations {{0} imported: 0 selected: 0 items: "root transform"}
+  animation_layers {{1 11 960 540 {root.width*0.7458} {root.height*size.upperlevel} 1 1 0 0 0 0}
+    }
+  name range1
+  label "<font size=8 color=yellow>&nbsp;<b>FRAME_upper"
+  xpos 3842
+  ypos 1261
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message "DATE:     \[date %y]/\[date %m]/\[date %d]"
+  old_message {{68 65 84 69 58 32 32 32 32 32 50 52 47 48 49 47 48 51}
+    }
+  old_expression_markers {{10 11 13 14 16 17}
+    }
+  box {0 0 186.5 76}
+  yjustify bottom
+  transforms {{0 2}
+    }
+  cursor_position 9
+  font {{ Ebrima : Bold : ebrimabd.ttf : 0 }}
+  global_font_scale {{size.global_font_scale}}
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{664 32.5}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform"}
+  animation_layers {{1 11 960 540 {root.width*0.90625} {root.height*size.lowerlevel} 1 1 0 0 0 0}
+    }
+  name FrameRange2
+  label "<font size=8 color=yellow>&nbsp;<b>DATE"
+  xpos 3842
+  ypos 1441
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message "\[python getProject()]"
+  old_message {{78 73 82 86 65 78 65}
+    }
+  old_expression_markers {{0 6}
+    }
+  box {0 0 130.8000031 83.19999695}
+  yjustify bottom
+  transforms {{0 2}
+    }
+  cursor_position 21
+  font {{ Arial : Bold : arialbd.ttf : 0 }}
+  global_font_scale {{size.global_font_scale}}
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{841.5 32.5}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform"}
+  animation_layers {{1 11 960 540 {root.width*0.44} {root.height*size.lowerlevel} 1 1 0 0 0 0}
+    }
+  color {{SizeName.color} {SizeName.color} {SizeName.color} {SizeName.color}}
+  color_panelDropped true
+  name projectName
+  label "<font size=8 color=yellow>&nbsp;<b>projectName"
+  xpos 4051
+  ypos 1441
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message "project: "
+  old_message {{112 114 111 106 101 99 116 58 32}
+    }
+  box {5.5 0 110.5 84.80000305}
+  xjustify right
+  yjustify bottom
+  transforms {{0 2}
+    }
+  font {{ Arial : Bold : arialbd.ttf : 0 }}
+  global_font_scale {{size.global_font_scale}}
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{841.5 32.5}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform"}
+  animation_layers {{1 11 960 540 {root.width*0.38} {root.height*size.lowerlevel} 1 1 0 0 0 0}
+    }
+  name projectName1
+  xpos 4051
+  ypos 1398
+ }
+ Dot {
+  name Dot5
+  xpos 4085
+  ypos 1120
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message "size:    "
+  old_message {{115 105 122 101 58 32 32 32 32}
+    }
+  box {-20.5 0 65.5 78}
+  xjustify right
+  yjustify bottom
+  transforms {{0 2}
+    }
+  cursor_position 9
+  font {{ Arial : Bold : arialbd.ttf : 0 }}
+  global_font_scale 0.12
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{841.5 32.5}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform"}
+  animation_layers {{1 11 960 540 {root.width*0.0001} {root.height*size.lowerlevel} 1 1 0 0 0 0}
+    }
+  name size
+  tile_color 0xff00a8ff
+  xpos 4217
+  ypos 1117
+  addUserKnob {20 User}
+  addUserKnob {7 upperlevel R 0.968 1.038}
+  upperlevel 0.9752
+  addUserKnob {7 lowerlevel R 0 0.022}
+  lowerlevel 0.0052
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message "\[value root.width]  X  \[value root.height]"
+  old_message {{49 57 50 48 32 32 88 32 32 49 48 56 48}
+    }
+  old_expression_markers {{0 3 9 12}
+    }
+  box {0 0 135 79}
+  yjustify bottom
+  transforms {{0 2}
+    }
+  cursor_position 42
+  font {{ Arial : Bold : arialbd.ttf : 0 }}
+  global_font_scale {{size.global_font_scale}}
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{841.5 32.5}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform"}
+  animation_layers {{1 11 960 540 {root.width*0.0345} {root.height*size.lowerlevel} 1 1 0 0 0 0}
+    }
+  color {0 0.6 1 1}
+  name SizeName
+  label "<font size=8 color=yellow>&nbsp;<b>SizeName"
+  xpos 4217
+  ypos 1446
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message "FPS:    \[value root.fps]"
+  old_message {{70 80 83 58 32 32 32 32 50 53}
+    }
+  old_expression_markers {{8 9}
+    }
+  box {0 0 155.5 83.5}
+  yjustify bottom
+  transforms {{0 2}
+    }
+  cursor_position 6
+  font {{ Arial : Bold : arialbd.ttf : 0 }}
+  global_font_scale {{size.global_font_scale}}
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{664 32.5}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform"}
+  animation_layers {{1 11 960 540 {root.width*0.81041} {root.height*size.lowerlevel} 1 1 0 0 0 0}
+    }
+  name FPS_vlu
+  xpos 4656
+  ypos 1466
+ }
+ Output {
+  name Output1
+  xpos 4217
+  ypos 1703
+ }
+ Viewer {
+  frame_range 1001-1100
+  fps 25
+  name Viewer1
+  xpos 4217
+  ypos 1813
+ }
+ Roto {
+  inputs 0
+  output alpha
+  curves {{{v x3f99999a}
+  {f 0}
+  {n
+   {layer Root
+    {f 0}
+    {t x44700000 x44070000}
+    {a pt1x 0 pt1y 0 pt2x 0 pt2y 0 pt3x 0 pt3y 0 pt4x 0 pt4y 0 ptex00 0 ptex01 0 ptex02 0 ptex03 0 ptex10 0 ptex11 0 ptex12 0 ptex13 0 ptex20 0 ptex21 0 ptex22 0 ptex23 0 ptex30 0 ptex31 0 ptex32 0 ptex33 0 ptof1x 0 ptof1y 0 ptof2x 0 ptof2y 0 ptof3x 0 ptof3y 0 ptof4x 0 ptof4y 0 pterr 0 ptrefset 0 ptmot x40800000 ptref 0}}}}}
+  toolbox {createBezier {
+  { createBezier str 1 ssx 1 ssy 1 sf 1 sb 1 tt 4 }
+  { createBezierCusped str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { createBSpline str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { createEllipse str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { createRectangle str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { createRectangleCusped str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { brush str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { eraser src 2 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { clone src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { reveal src 3 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { dodge src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { burn src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { blur src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { sharpen src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { smear src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+} }
+  toolbar_brush_hardness 0.200000003
+  toolbar_source_transform_scale {1 1}
+  toolbar_source_transform_center {960 540}
+  name Roto1
+  xpos 2510
+  ypos 1270
+ }
+end_group

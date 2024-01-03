@@ -1,0 +1,139 @@
+#! E:/TheFoundry/Nuke13.2v3/nuke-13.2.3.dll -nx
+version 13.2 v3
+Gizmo {
+ tile_color 0xcb00d6ff
+ gl_color 0x77ffeeff
+ label "<font size=3 color=YELLOW>::::::::For_Prism2::::::::\n\n"
+ lifetimeStart 1001
+ lifetimeEnd 1100
+ addUserKnob {20 Setting}
+ addUserKnob {26 PowerSlateAssets l "" +STARTLINE T PowerSlateAssets}
+ addUserKnob {26 note l "" +STARTLINE T "This Gizmo is based on Prism2!\nPlease ensure that the project settings are correctly configured in Prism before use."}
+ addUserKnob {26 ""}
+ addUserKnob {26 _1 l "" +STARTLINE T "Please make sure to set the correct 'FullSizeFormat' in project settings before using"}
+ addUserKnob {26 ""}
+ addUserKnob {22 Load l "Load Core!" T "core = pcore\n\ndef getVersion(pcore):\n    fileName = core.getCurrentFileName()\n    currentEntity = core.getScenefileData(fileName)\n    ver = currentEntity\['version']\n    return ver\n\ndef getAssets(pcore):\n    fileName = core.getCurrentFileName()\n    currentEntity = core.getScenefileData(fileName)\n    try:\n        ast = currentEntity\['asset']\n        return ast\n    except KeyError:\n        return None\ndef getUsername(pcore):\n    fileName = core.getCurrentFileName()\n    currentEntity = core.getScenefileData(fileName)\n    artist = currentEntity\['username']\n    return artist\n\ndef getProject():\n    core = pcore\n    fileName = core.getCurrentFileName()\n    currentEntity = core.getScenefileData(fileName)\n    try:\n        project = currentEntity\['project_name']\n        return project\n    except KeyError:\n        path = currentEntity\['project_path']\n        path_parts = path.split(os.path.sep)\n        project_name = path_parts\[-2] if len(path_parts) >= 2 else None\n        return project_name\n\n\ndef getProjectSize(dim):\n    root_node = nuke.root()\n    resolution = \{\}\n\n    resolution\['width'] = root_node.width()\n    resolution\['height'] = root_node.height()\n\n    if dim == 'width':\n        return resolution\['width']\n    elif dim == 'height':\n        return resolution\['height']\n    else:\n        print('Invalid dimension')\n" +STARTLINE}
+ addUserKnob {41 size l "Text Size" T FileName.size}
+ addUserKnob {41 frameSize l "Frame Size" T Frame.size}
+ addUserKnob {26 ""}
+ addUserKnob {26 Contact_me l "" +STARTLINE T "\n\nContact: \nSimon.lee.work@outlook.com"}
+ addUserKnob {26 Gizmo_info l "" +STARTLINE T "\nPowerSlate For_Prism2\n =====V0.1.1(Beta)\n\n\nby: Simon.Ming"}
+ addUserKnob {26 ""}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos -44
+  ypos 197
+ }
+ Crop {
+  box {0 {"root.height* -0.0489"} {root.width()} {root.height+root.height*0.034 653.2}}
+  reformat true
+  intersect true
+  name Crop2
+  xpos 229
+  ypos 197
+ }
+ NoOp {
+  name NoOp1
+  xpos 229
+  ypos 329
+ }
+ Text {
+  message "\[date %b]  \[date %d] \[date %Y]"
+  font C:/Windows/Fonts/arial.ttf
+  size {{FileName.size}}
+  yjustify bottom
+  Transform 1
+  box {0 0 522 86.75}
+  translate {{root.width*0.038} {root.height*1.049}}
+  center {1024 576.5}
+  name Date
+  xpos 474
+  ypos 329
+ }
+ Text {
+  message "\[python getVersion(pcore)]"
+  font C:/Windows/Fonts/arial.ttf
+  size {{FileName.size}}
+  yjustify bottom
+  Transform 1
+  box {0 0 522 86.75}
+  translate {{root.width*0.87} {root.height*1.049}}
+  center {1024 576.5}
+  name Ver_Num
+  xpos 474
+  ypos 388
+ }
+ Text {
+  message "Assets:  \[python getAssets(pcore)]"
+  font C:/Windows/Fonts/arial.ttf
+  size {{FileName.size}}
+  yjustify bottom
+  Transform 1
+  box {0 0 545.5 80.92499995}
+  translate {{"root.width * 0.225"} {"root.height* 0.004"}}
+  center {1024 576.5}
+  name Assets
+  xpos 474
+  ypos 462
+ }
+ Text {
+  message "\[file tail \[value root.name \[file rootname \[value root.name]]]]"
+  font C:/Windows/Fonts/arial.ttf
+  size 20
+  yjustify bottom
+  Transform 1
+  box {0 0 739 86.75}
+  translate {{"root.width* 0.002"} {"root.height * 0.004"}}
+  center {1024 576.5}
+  name FileName
+  xpos 475
+  ypos 558
+ }
+ Text {
+  message "\[value frame]"
+  font C:/Windows/Fonts/arial.ttf
+  size 40.5
+  xjustify center
+  yjustify bottom
+  Transform 1
+  box {-46.5 0 101 56.5}
+  translate {{root.width*0.944} {root.height*0.001}}
+  center {1024 576.5}
+  name Frame
+  xpos 475
+  ypos 681
+ }
+ Text {
+  message "artist:  \[python getUsername(pcore)]"
+  font C:/Windows/Fonts/arial.ttf
+  size {{FileName.size}}
+  yjustify bottom
+  Transform 1
+  box {0 0 455.5 114.8000031}
+  translate {{root.width*0.48} {root.height*0.004}}
+  center {1024 576.5}
+  name artist
+  xpos 475
+  ypos 810
+ }
+ Text {
+  message "Project:  \[python getProject()]"
+  font C:/Windows/Fonts/arial.ttf
+  size {{FileName.size}}
+  yjustify bottom
+  Transform 1
+  box {0 0 426 112.1999969}
+  translate {{root.width*0.66} {root.height*0.004}}
+  center {1024 576.5}
+  name PROJECT
+  xpos 475
+  ypos 896
+ }
+ Output {
+  name Output1
+  xpos 501
+  ypos 984
+ }
+end_group
