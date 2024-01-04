@@ -37,6 +37,9 @@ nuke.pluginAddPath('./PowerSlate_ForPrism2/py')
 ![240103214715](https://github.com/SimonMing0528/PowerSlate-Nuke_ForPrism2/assets/137688513/4c3159d2-f68e-4e56-a37f-71e3016369c9)
 
 # Usage <br>
+![LCT 拷贝](https://github.com/SimonMing0528/PowerSlate-Nuke_ForPrism2/assets/137688513/eeef577d-961d-4694-95cb-faa61a7a1516)
+
+
 ![103231501](https://github.com/SimonMing0528/PowerSlate-Nuke_ForPrism2/assets/137688513/d943e9b9-857b-4b74-a07d-0855bd194712)
 
 This plugin, integrated with Prism2 Pipeline management software, automatically retrieves essential information about the current scene, eliminating the need for manual inputs and operations in most cases。
