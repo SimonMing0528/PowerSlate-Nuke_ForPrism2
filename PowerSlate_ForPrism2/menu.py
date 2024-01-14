@@ -25,7 +25,7 @@ def setOnLoad():
         on_script_load_knob.setValue('from mainCallBack import* ;preStart();aftRenderDisable()')
 
 
-# add fxT_chromaticAberration Group to the fxT menu
+# add Group to menu
 Pws.addCommand('Pws_Shot',"create_and_rename_node(); setOnLoad()")
 Pws.addCommand('Pws_LookDev',"create_rename_Ldv(); setOnLoad()")
 
